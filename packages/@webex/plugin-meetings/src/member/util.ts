@@ -16,8 +16,23 @@ import {
   _CALL_,
 } from '../constants';
 import ParameterError from '../common/errors/parameter';
+import {IMediaStatus} from './member.types';
 
 const MemberUtil: any = {};
+
+/**
+ * @param {Object} participant the locus participant
+ * @returns {Boolean}
+ */
+MemberUtil.canReclaimHost = (participant) => {
+  if (!participant) {
+    throw new ParameterError(
+      'canReclaimHostRole could not be processed, participant is undefined.'
+    );
+  }
+
+  return participant.canReclaimHostRole || false;
+};
 
 /**
  * @param {Object} participant the locus participant
@@ -252,6 +267,22 @@ MemberUtil.extractId = (participant: any) => {
   }
 
   return null;
+};
+
+/**
+ * extracts the media status from nested participant object
+ * @param {Object} participant the locus participant
+ * @returns {Object}
+ */
+MemberUtil.extractMediaStatus = (participant: any): IMediaStatus => {
+  if (!participant) {
+    throw new ParameterError('Media status could not be extracted, participant is undefined.');
+  }
+
+  return {
+    audio: participant.status.audioStatus,
+    video: participant.status.videoStatus,
+  };
 };
 
 /**

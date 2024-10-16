@@ -1,6 +1,6 @@
 {
   "name": "webex",
-  "version": "2.55.0",
+  "version": "2.60.4",
   "description": "SDK for Cisco Webex",
   "license": "Cisco EULA (https://www.cisco.com/c/en/us/products/end-user-license-agreement.html)",
   "contributors": [
@@ -14,6 +14,11 @@
     "Taymoor Khan <taykhan@cisco.com>"
   ],
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./meetings": "./dist/meetings.js",
+    "./package": "./package.json"
+  },
   "devMain": "src/index.js",
   "repository": {
     "type": "git",

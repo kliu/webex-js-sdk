@@ -2,6 +2,146 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.60.4](https://github.com/webex/webex-js-sdk/compare/v2.60.3...v2.60.4) (2024-10-16)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** added alias as option in joinmeeting ([#3902](https://github.com/webex/webex-js-sdk/issues/3902)) ([afd2ae5](https://github.com/webex/webex-js-sdk/commit/afd2ae5d877a2de4c59557993f08044d0c3274c0))
+
+### [2.60.3](https://github.com/webex/webex-js-sdk/compare/v2.60.2...v2.60.3) (2024-10-16)
+
+
+### Bug Fixes
+
+* **publish:** change publish to legacy tag instead of latest ([#3925](https://github.com/webex/webex-js-sdk/issues/3925)) ([b19568d](https://github.com/webex/webex-js-sdk/commit/b19568da975b7a1442b4b6910d8135c8c55c439a))
+
+### [2.60.2](https://github.com/webex/webex-js-sdk/compare/v2.60.1...v2.60.2) (2024-10-04)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** resolved guest issue forbidden error ([#3861](https://github.com/webex/webex-js-sdk/issues/3861)) ([5015271](https://github.com/webex/webex-js-sdk/commit/50152715973df94ef6bba6e10a76a776b5989eae))
+
+### [2.60.1](https://github.com/webex/webex-js-sdk/compare/v2.60.0...v2.60.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* **meeting:** allow unmute request from user when unmuteAllowed becomes null ([#3382](https://github.com/webex/webex-js-sdk/issues/3382)) ([71f4205](https://github.com/webex/webex-js-sdk/commit/71f42052716634e901cf130b27584ba20f17c831))
+
+## [2.60.0](https://github.com/webex/webex-js-sdk/compare/v2.59.8...v2.60.0) (2024-01-17)
+
+
+### Features
+
+* **meetings:** add ability to reclaim host role with hostKey ([#3291](https://github.com/webex/webex-js-sdk/issues/3291)) ([137b528](https://github.com/webex/webex-js-sdk/commit/137b52827e5286b0396e825364876a40a586c8eb))
+
+### [2.59.8](https://github.com/webex/webex-js-sdk/compare/v2.59.7...v2.59.8) (2023-11-16)
+
+
+### Bug Fixes
+
+* **services:** added hostCatalog inside webex ([#3198](https://github.com/webex/webex-js-sdk/issues/3198)) ([cdaddc2](https://github.com/webex/webex-js-sdk/commit/cdaddc2ffb9b66b6003cc9d3d19cd4ddd5d0cabf))
+
+### [2.59.7](https://github.com/webex/webex-js-sdk/compare/v2.59.6...v2.59.7) (2023-11-15)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** start transcription when guest user is admitted ([#3195](https://github.com/webex/webex-js-sdk/issues/3195)) ([e4c31a0](https://github.com/webex/webex-js-sdk/commit/e4c31a082fa3ad0c3ad9930ede8ea0e854db0c65))
+
+### [2.59.6](https://github.com/webex/webex-js-sdk/compare/v2.59.5...v2.59.6) (2023-11-03)
+
+
+### Bug Fixes
+
+* **meetings:** pass encrypted title based on APPI API for conversation ([#3166](https://github.com/webex/webex-js-sdk/issues/3166)) ([080d786](https://github.com/webex/webex-js-sdk/commit/080d786626d98c18eb6c4abdb004c112811f0e12))
+
+### [2.59.5](https://github.com/webex/webex-js-sdk/compare/v2.59.4...v2.59.5) (2023-11-03)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** cherry-picked-PR-2782-from-beta ([#3160](https://github.com/webex/webex-js-sdk/issues/3160)) ([1acaac5](https://github.com/webex/webex-js-sdk/commit/1acaac5b1b3a3029882fd74c21c92dfcc41ee589))
+
+### [2.59.4](https://github.com/webex/webex-js-sdk/compare/v2.59.3...v2.59.4) (2023-10-10)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** enable adhoc and unified space meeting by default  ([#3137](https://github.com/webex/webex-js-sdk/issues/3137)) ([36c6022](https://github.com/webex/webex-js-sdk/commit/36c602292fbe5155fea3d2ef938c99e43443a2bc))
+
+### [2.59.3](https://github.com/webex/webex-js-sdk/compare/v2.59.2...v2.59.3) (2023-09-06)
+
+
+### Bug Fixes
+
+* **meeting:** added noFramesSent noVideoEncoded events ([#3041](https://github.com/webex/webex-js-sdk/issues/3041)) ([d0c3188](https://github.com/webex/webex-js-sdk/commit/d0c31884fddd0ebff575dcf422a30adb3e542632))
+
+### [2.59.2](https://github.com/webex/webex-js-sdk/compare/v2.59.1...v2.59.2) (2023-08-28)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** no-frames-received-sent-stats-error ([#3017](https://github.com/webex/webex-js-sdk/issues/3017)) ([8c8cb6e](https://github.com/webex/webex-js-sdk/commit/8c8cb6e188d48f1b081e3eb4c7d5447eee40a315))
+
+### [2.59.1](https://github.com/webex/webex-js-sdk/compare/v2.59.0...v2.59.1) (2023-08-14)
+
+
+### Bug Fixes
+
+* **plugin-meetings:** added error for transcription not starting when guest joins first ([#2993](https://github.com/webex/webex-js-sdk/issues/2993)) ([68fc86b](https://github.com/webex/webex-js-sdk/commit/68fc86bfef4eedd191b916436171e8fac2c1271c))
+
+## [2.59.0](https://github.com/webex/webex-js-sdk/compare/v2.58.1...v2.59.0) (2023-07-24)
+
+
+### Features
+
+* **package-tools:** improve version control ([#2950](https://github.com/webex/webex-js-sdk/issues/2950)) ([a4cb696](https://github.com/webex/webex-js-sdk/commit/a4cb69668fc8bfe819756a4f080d9ea5e30e5e9a))
+
+### [2.58.1](https://github.com/webex/webex-js-sdk/compare/v2.58.0...v2.58.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* **samples:** video resolution issue fix ([#2961](https://github.com/webex/webex-js-sdk/issues/2961)) ([974d9a6](https://github.com/webex/webex-js-sdk/commit/974d9a64d111fab135ab36d6e462c5fa671f2512))
+
+## [2.58.0](https://github.com/webex/webex-js-sdk/compare/v2.57.1...v2.58.0) (2023-07-20)
+
+
+### Features
+
+* extract media status on members from nested participant ([#2953](https://github.com/webex/webex-js-sdk/issues/2953)) ([9194180](https://github.com/webex/webex-js-sdk/commit/9194180a7e67935b86dd3ab4d8b87637a774143f))
+
+### [2.57.1](https://github.com/webex/webex-js-sdk/compare/v2.57.0...v2.57.1) (2023-07-14)
+
+
+### Bug Fixes
+
+* **plugin-calendar:** enhance getFreeBusy function ([#2940](https://github.com/webex/webex-js-sdk/issues/2940)) ([a99635a](https://github.com/webex/webex-js-sdk/commit/a99635a0078dc9c75fa989cff0a4486d6acccfad))
+
+## [2.57.0](https://github.com/webex/webex-js-sdk/compare/v2.56.0...v2.57.0) (2023-07-13)
+
+
+### Features
+
+* **internal-plugin-encryption:** support for uploading master key  f… ([#2945](https://github.com/webex/webex-js-sdk/issues/2945)) ([075131c](https://github.com/webex/webex-js-sdk/commit/075131c94fb1981ea0bdcbd3ff93bc08ea266927))
+
+## [2.56.0](https://github.com/webex/webex-js-sdk/compare/v2.55.1...v2.56.0) (2023-07-11)
+
+
+### Features
+
+* **plugin-dss:** add a new function to search places ([#2934](https://github.com/webex/webex-js-sdk/issues/2934)) ([5cd8bdb](https://github.com/webex/webex-js-sdk/commit/5cd8bdbb39413c2c8b4ddbc20bb2dec86fa546d1))
+
+### [2.55.1](https://github.com/webex/webex-js-sdk/compare/v2.55.0...v2.55.1) (2023-06-30)
+
+
+### Bug Fixes
+
+* **meetings:** update package with import paths ([#2898](https://github.com/webex/webex-js-sdk/issues/2898)) ([7a02ae6](https://github.com/webex/webex-js-sdk/commit/7a02ae68d2f22bcfd78efd92fe0372ef4223cee1))
+
 ## [2.55.0](https://github.com/webex/webex-js-sdk/compare/v2.54.3...v2.55.0) (2023-06-27)
 
 

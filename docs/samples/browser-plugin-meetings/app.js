@@ -181,7 +181,6 @@ function register() {
       toggleUnifiedMeetings.removeAttribute('disabled');
       unregisterElm.disabled = false;
       unregisterElm.classList.add('btn--red');
-      meetingsResolutionCheckInterval();
     })
     .catch((error) => {
       console.warn('Authentication#register() :: error registering', error);
@@ -227,7 +226,6 @@ function unregister() {
     });
 }
 
-
 async function getGuestAccessToken() {
 
   await axios({
@@ -252,6 +250,7 @@ const createMeetingSelectElm = document.querySelector('#createMeetingDest');
 const createMeetingActionElm = document.querySelector('#create-meeting-action');
 const meetingsJoinDeviceElm = document.querySelector('#meetings-join-device');
 const meetingsJoinPinElm = document.querySelector('#meetings-join-pin');
+const meetingsGuestName = document.querySelector('#meetings-guest-name');
 const meetingsJoinModeratorElm = document.querySelector('#meetings-join-moderator');
 const meetingsListCollectElm = document.querySelector('#meetings-list-collect');
 const meetingsListMsgElm = document.querySelector('#meetings-list-msg');
@@ -466,12 +465,13 @@ function joinMeeting({withMedia, withDevice} = {withMedia: false, withDevice: fa
 
   const joinOptions = {
     pin: meetingsJoinPinElm.value,
+    alias: meetingsGuestName.value,
     moderator: meetingsJoinModeratorElm.checked,
     moveToResource: false,
     resourceId,
     receiveTranscription: receiveTranscriptionOption
   };
-
+  
   const joinMeetingNow = () => {
     meeting.join(joinOptions)
     .then(() => { // eslint-disable-line
@@ -529,6 +529,7 @@ function leaveMeeting(meetingId) {
       passwordCaptchaStatusElm.style.backgroundColor = 'white';
       meetingsJoinPinElm.value = '';
       meetingsJoinCaptchaElm.value = '';
+      clearVideoResolutionCheckInterval(remoteVideoResElm, remoteVideoResolutionInterval);
     });
 }
 
@@ -661,6 +662,10 @@ function cleanUpMedia(mediaElements) {
       elem.srcObject.getTracks().forEach((track) => track.stop());
       // eslint-disable-next-line no-param-reassign
       elem.srcObject = null;
+      
+      if(elem.id === "local-video") {
+        clearVideoResolutionCheckInterval(localVideoResElm, localVideoResolutionInterval);
+      }
     }
   });
 }
@@ -912,6 +917,8 @@ function getMediaStreams(mediaSettings = getMediaSettings(), audioVideoInputDevi
         meetingStreamsLocalAudio.srcObject = new MediaStream(localStream.getAudioTracks());
       }
 
+      localVideoResolutionCheckInterval();
+      
       return {localStream};
     })
     .catch((error) => {
@@ -1261,9 +1268,11 @@ function clearMediaDeviceList() {
 }
 
 function getLocalMediaSettings() {
-  const meeting = getCurrentMeeting();
-  if(meeting && meeting.mediaProperties.videoTrack) {
-    const videoSettings = meeting.mediaProperties.videoTrack.getSettings();
+  const [localStream] = currentMediaStreams;
+  const localVideoTrack = localStream.getVideoTracks()[0];
+
+  if (localVideoTrack) {
+    const videoSettings = localVideoTrack.getSettings();
     const {frameRate, height} = videoSettings;
     localVideoResElm.innerText = `${height}p ${Math.round(frameRate)}fps`;
   }
@@ -1271,28 +1280,32 @@ function getLocalMediaSettings() {
 
 function getRemoteMediaSettings() {
   const meeting = getCurrentMeeting();
-  if(meeting && meeting.mediaProperties.remoteVideoTrack){
-      const videoSettings = meeting.mediaProperties.remoteVideoTrack.getSettings();
-      const {frameRate, height} = videoSettings;
-      remoteVideoResElm.innerText = `${height}p ${Math.round(frameRate)}fps`;
+  if (meeting && meeting.mediaProperties.remoteVideoTrack) {
+    const videoSettings = meeting.mediaProperties.remoteVideoTrack.getSettings();
+    const {frameRate, height} = videoSettings;
+    remoteVideoResElm.innerText = `${height}p ${Math.round(frameRate)}fps`;
   }
 }
 
-let resolutionInterval;
+let localVideoResolutionInterval;
+let remoteVideoResolutionInterval;
 const INTERVAL_TIME = 3000;
 
-function meetingsResolutionCheckInterval() {
-  resolutionInterval = setInterval(() => {
+function localVideoResolutionCheckInterval() {
+  localVideoResolutionInterval = setInterval(() => {
     getLocalMediaSettings();
+  }, INTERVAL_TIME);
+}
+
+function remoteVideoResolutionCheckInterval() {
+  remoteVideoResolutionInterval = setInterval(() => {
     getRemoteMediaSettings();
   }, INTERVAL_TIME);
 }
 
-function clearMeetingsResolutionCheckInterval() {
-  localVideoResElm.innerText = '';
-  remoteVideoResElm.innerText = '';
-
-  clearInterval(resolutionInterval);
+function clearVideoResolutionCheckInterval(element, intervalId) {
+  element.innerText = '';
+  clearInterval(intervalId);
 }
 
 // Meeting Streams --------------------------------------------------
@@ -1341,6 +1354,7 @@ function addMedia() {
     localStream,
     mediaSettings: getMediaSettings()
   }).then(() => {
+    remoteVideoResolutionCheckInterval();
     console.log('MeetingStreams#addMedia() :: successfully added media!');
   }).catch((error) => {
     console.log('MeetingStreams#addMedia() :: Error adding media!');
@@ -1369,8 +1383,6 @@ function addMedia() {
 
   // remove stream if media stopped
   meeting.on('media:stopped', (media) => {
-    clearMeetingsResolutionCheckInterval();
-
     // eslint-disable-next-line default-case
     switch (media.type) {
       case 'remoteVideo':
@@ -1784,6 +1796,25 @@ function transferHostToMember(transferButton) {
   }
 }
 
+function reclaimHost(reclaimHostBtn) {
+  const hostKey = reclaimHostBtn.previousElementSibling.value;
+  const meeting = getCurrentMeeting();
+  const selfId = meeting.members.selfId;
+  const role = {
+    type: 'MODERATOR',
+    hasRole: true,
+    hostKey,
+  };
+
+  meeting.members.assignRoles(selfId, [role])
+  .then(() => {
+    console.log('Host role reclaimed');
+  })
+  .catch((error) => {
+    console.log('Error reclaiming host role', error);
+  });
+}
+
 function viewParticipants() {
   function createLabel(id, value = '') {
     const label = document.createElement('label');
@@ -1912,6 +1943,19 @@ function viewParticipants() {
     inviteDiv.appendChild(inviteBtn);
 
     participantButtons.appendChild(inviteDiv);
+
+    const reclaimHostDiv = document.createElement('div');
+    const reclaimHostInput = document.createElement('input');
+    const reclaimHostBtn = createButton('Reclaim Host', reclaimHost);
+
+    reclaimHostDiv.style.display = 'flex';
+    reclaimHostInput.type = 'text';
+    reclaimHostInput.placeholder = 'Host Key';
+
+    reclaimHostDiv.appendChild(reclaimHostInput);
+    reclaimHostDiv.appendChild(reclaimHostBtn);
+
+    participantButtons.appendChild(reclaimHostDiv);
   }
 }
 
